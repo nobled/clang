@@ -11,7 +11,6 @@
 #define CLANG_DRIVER_OPTSPECIFIER_H
 
 namespace clang {
-namespace driver {
   class Option;
 
   /// OptSpecifier - Wrapper class for abstracting references to option IDs.
@@ -33,7 +32,6 @@ namespace driver {
     bool operator==(OptSpecifier Opt) const { return ID == Opt.getID(); }
     bool operator!=(OptSpecifier Opt) const { return !(*this == Opt); }
   };
-}
-}
+} // end namespace clang
 
 #endif

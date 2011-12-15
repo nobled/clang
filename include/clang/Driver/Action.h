@@ -15,8 +15,9 @@
 #include "llvm/ADT/SmallVector.h"
 
 namespace clang {
-namespace driver {
   class Arg;
+
+namespace driver {
 
 /// Action - Represent an abstract compilation step to perform.
 ///

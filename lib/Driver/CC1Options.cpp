@@ -12,7 +12,6 @@
 #include "clang/Driver/OptTable.h"
 using namespace clang;
 using namespace clang::driver;
-using namespace clang::driver::options;
 using namespace clang::driver::cc1options;
 
 static const OptTable::Info CC1InfoTable[] = {

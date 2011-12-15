@@ -13,8 +13,9 @@
 #include "clang/Basic/LLVM.h"
 
 namespace clang {
-namespace driver {
   class ArgList;
+
+namespace driver {
   class Compilation;
   class InputInfo;
   class Job;

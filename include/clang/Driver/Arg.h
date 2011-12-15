@@ -16,7 +16,6 @@
 #include <string>
 
 namespace clang {
-namespace driver {
   class ArgList;
   class Option;
 
@@ -116,7 +115,6 @@ namespace driver {
     std::string getAsString(const ArgList &Args) const;
   };
 
-} // end namespace driver
 } // end namespace clang
 
 #endif

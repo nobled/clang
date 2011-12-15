@@ -14,8 +14,8 @@
 #include <string>
 
 namespace clang {
-namespace driver {
   class ArgList;
+namespace driver {
   class Driver;
   class ToolChain;
 

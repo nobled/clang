@@ -13,15 +13,14 @@
 #include "clang/Basic/LLVM.h"
 
 namespace clang {
-namespace driver {
-  class Action;
-
   /// ArgStringList - Type used for constructing argv lists for subprocesses.
   typedef SmallVector<const char*, 16> ArgStringList;
 
+namespace driver {
+  class Action;
+
   /// ActionList - Type used for lists of actions.
   typedef SmallVector<Action*, 3> ActionList;
-
 } // end namespace driver
 } // end namespace clang
 

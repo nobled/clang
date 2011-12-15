@@ -28,18 +28,19 @@ namespace llvm {
   template<typename T> class ArrayRef;
 }
 namespace clang {
-namespace driver {
-  class Action;
   class Arg;
   class ArgList;
+  class DerivedArgList;
+  class InputArgList;
+  class OptTable;
+
+namespace driver {
+  class Action;
   class Command;
   class Compilation;
-  class DerivedArgList;
   class HostInfo;
-  class InputArgList;
   class InputInfo;
   class JobAction;
-  class OptTable;
   class ToolChain;
 
 /// Driver - Encapsulate logic for constructing compilation processes

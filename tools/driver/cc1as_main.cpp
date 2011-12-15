@@ -390,7 +390,7 @@ int cc1as_main(const char **ArgBegin, const char **ArgEnd,
 
   // Honor -help.
   if (Asm.ShowHelp) {
-    llvm::OwningPtr<driver::OptTable> Opts(driver::createCC1AsOptTable());
+    llvm::OwningPtr<OptTable> Opts(driver::createCC1AsOptTable());
     Opts->PrintHelp(llvm::outs(), "clang -cc1as", "Clang Integrated Assembler");
     return 0;
   }

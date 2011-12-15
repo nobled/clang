@@ -11,9 +11,9 @@
 #define CLANG_DRIVER_CC1ASOPTIONS_H
 
 namespace clang {
-namespace driver {
   class OptTable;
 
+namespace driver {
 namespace cc1asoptions {
   enum ID {
     OPT_INVALID = 0, // This is not an option ID.

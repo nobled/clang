@@ -15,7 +15,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include <cassert>
 #include <algorithm>
-using namespace clang::driver;
+using namespace clang;
 
 Option::Option(OptionClass _Kind, OptSpecifier _ID, const char *_Name,
                const OptionGroup *_Group, const Option *_Alias)

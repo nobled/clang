@@ -18,13 +18,14 @@
 #include <string>
 
 namespace clang {
-namespace driver {
   class ArgList;
-  class Compilation;
   class DerivedArgList;
+  class InputArgList;
+
+namespace driver {
+  class Compilation;
   class Driver;
   class HostInfo;
-  class InputArgList;
   class JobAction;
   class ObjCRuntime;
   class Tool;

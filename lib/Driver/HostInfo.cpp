@@ -23,6 +23,7 @@
 
 #include <cassert>
 
+using namespace clang;
 using namespace clang::driver;
 
 HostInfo::HostInfo(const Driver &D, const llvm::Triple &_Triple)

@@ -14,8 +14,6 @@
 #include "clang/Driver/OptSpecifier.h"
 
 namespace clang {
-namespace driver {
-namespace options {
   enum DriverFlag {
     DriverOption     = (1 << 0),
     HelpHidden       = (1 << 1),
@@ -27,7 +25,6 @@ namespace options {
     RenderSeparate   = (1 << 7),
     Unsupported      = (1 << 8)
   };
-}
 
   class Arg;
   class ArgList;
@@ -124,7 +121,7 @@ namespace options {
     /// isOptionHelpHidden - Should the help for the given option be hidden by
     /// default.
     bool isOptionHelpHidden(OptSpecifier id) const {
-      return getInfo(id).Flags & options::HelpHidden;
+      return getInfo(id).Flags & HelpHidden;
     }
 
     /// getOptionHelpText - Get the help text to use to describe this option.
@@ -180,7 +177,6 @@ namespace options {
     void PrintHelp(raw_ostream &OS, const char *Name,
                    const char *Title, bool ShowHidden = false) const;
   };
-}
-}
+} // end namespace clang
 
 #endif

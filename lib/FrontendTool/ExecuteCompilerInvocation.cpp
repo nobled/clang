@@ -119,7 +119,7 @@ static FrontendAction *CreateFrontendAction(CompilerInstance &CI) {
 bool clang::ExecuteCompilerInvocation(CompilerInstance *Clang) {
   // Honor -help.
   if (Clang->getFrontendOpts().ShowHelp) {
-    llvm::OwningPtr<driver::OptTable> Opts(driver::createCC1OptTable());
+    llvm::OwningPtr<OptTable> Opts(driver::createCC1OptTable());
     Opts->PrintHelp(llvm::outs(), "clang -cc1",
                     "LLVM 'Clang' Compiler: http://clang.llvm.org");
     return 0;

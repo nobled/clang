@@ -15,7 +15,6 @@
 #include "clang/Basic/LLVM.h"
 
 namespace clang {
-namespace driver {
   class Arg;
   class ArgList;
   class OptionGroup;
@@ -312,7 +311,6 @@ namespace driver {
     static bool classof(const JoinedAndSeparateOption *) { return true; }
   };
 
-} // end namespace driver
 } // end namespace clang
 
 #endif

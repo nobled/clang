@@ -15,8 +15,7 @@
 #include "llvm/Support/ErrorHandling.h"
 #include <algorithm>
 #include <map>
-using namespace clang::driver;
-using namespace clang::driver::options;
+
 using namespace clang;
 
 // Ordering on Info. The ordering is *almost* lexicographic, with two
@@ -46,7 +45,6 @@ static int StrCmpOptionName(const char *A, const char *B) {
 }
 
 namespace clang {
-namespace driver {
 static inline bool operator<(const OptTable::Info &A, const OptTable::Info &B) {
   if (&A == &B)
     return false;
@@ -68,8 +66,7 @@ static inline bool operator<(const OptTable::Info &I, const char *Name) {
 static inline bool operator<(const char *Name, const OptTable::Info &I) {
   return StrCmpOptionName(Name, I.Name) == -1;
 }
-}
-}
+} // end namespace clang
 
 //
 

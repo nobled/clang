@@ -16,10 +16,11 @@
 #include "llvm/Support/Path.h"
 
 namespace clang {
-namespace driver {
   class DerivedArgList;
-  class Driver;
   class InputArgList;
+
+namespace driver {
+  class Driver;
   class JobList;
   class ToolChain;
 

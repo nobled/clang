@@ -23,7 +23,6 @@
 namespace clang {
   class DiagnosticsEngine;
 
-namespace driver {
   class Arg;
   class ArgList;
   class Option;
@@ -410,7 +409,6 @@ namespace driver {
     /// @}
   };
 
-} // end namespace driver
 } // end namespace clang
 
 #endif

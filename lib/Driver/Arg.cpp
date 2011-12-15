@@ -14,7 +14,7 @@
 #include "llvm/ADT/Twine.h"
 #include "llvm/Support/raw_ostream.h"
 
-using namespace clang::driver;
+using namespace clang;
 
 Arg::Arg(const Option *_Opt, unsigned _Index, const Arg *_BaseArg)
   : Opt(_Opt), BaseArg(_BaseArg), Index(_Index),

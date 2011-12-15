@@ -11,6 +11,7 @@
 #include "clang/Driver/OptTable.h"
 #include "clang/Driver/Option.h"
 
+using namespace clang;
 using namespace clang::driver;
 using namespace clang::driver::options;
 
