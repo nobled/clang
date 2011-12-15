@@ -11,10 +11,12 @@
 #include "clang/Frontend/AnalyzerOptions.h"
 #include "clang/StaticAnalyzer/Frontend/FrontendActions.h"
 
+#include "clang/AST/ASTConsumer.h"
 #include "clang/Driver/Arg.h"
 #include "clang/Driver/ArgList.h"
 #include "clang/Driver/DriverDiagnostic.h"
 #include "clang/Driver/Option.h"
+#include "clang/Driver/OptTable.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "llvm/ADT/StringSwitch.h"
 
@@ -25,6 +27,10 @@ using namespace ento;
 
 ASTConsumer *AnalysisAction::CreateASTConsumer(CompilerInstance &CI,
                                                StringRef InFile) {
+  // If -analyzer-checker-help was given, this should be a no-op.
+  if (Opts.ShowCheckerHelp)
+    return new ASTConsumer();
+
   return CreateAnalysisConsumer(CI.getPreprocessor(),
                                 CI.getFrontendOpts().OutputFile,
                                 CI.getAnalyzerOpts(),
@@ -140,18 +146,41 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
 
 bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
                                const std::vector<std::string> &args) {
+  using namespace driver;
+
   if (args.empty())
     return true;
 
-  DiagnosticsEngine &D = CI.getDiagnostics();
+  DiagnosticsEngine &Diags = CI.getDiagnostics();
+  llvm::OwningPtr<OptTable> Table(createAnalyzerOptTable());
 
-  (void) &ParseAnalyzerArgs;
+  // FIXME: This is an ugly kludge; switch Arg-parsing code to take
+  // StringRef and ArrayRef. Then change this method's signature the same way
+  // so it can just be passed right through.
+  std::vector<const char*> cargs;
+  for (unsigned i = 0, e = args.size(); i != e; ++i)
+    cargs.push_back(args[i].c_str());
 
-  unsigned DiagID = D.getCustomDiagID(DiagnosticsEngine::Error,
-    "ParseArgs() not implemented (" __FILE__ ")");
-  D.Report(DiagID);
+  const char *const *ArgBegin = &cargs[0];
+  const char *const *ArgEnd = ArgBegin + cargs.size();
+  unsigned MissingArgIndex, MissingArgCount;
+  llvm::OwningPtr<InputArgList> Args(Table->ParseArgs(ArgBegin, ArgEnd,
+                                     MissingArgIndex, MissingArgCount));
+  assert(Args);
 
-  return false; // error
+  if (MissingArgCount) {
+    Diags.Report(diag::err_drv_missing_argument)
+      << Args->getArgString(MissingArgIndex) << MissingArgCount;
+    return false;
+  }
+
+  if (!ParseAnalyzerArgs(this->Opts, *Args, Diags))
+    return false;
+
+  if (this->Opts.ShowCheckerHelp)
+    ento::printCheckerHelp(llvm::outs(), CI.getFrontendOpts().Plugins);
+
+  return true;
 }
 
 static FrontendPluginRegistry::Add<AnalysisAction>

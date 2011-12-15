@@ -11,6 +11,7 @@
 #define LLVM_CLANG_GR_FRONTENDACTIONS_H
 
 #include "clang/Frontend/FrontendAction.h"
+#include "clang/Frontend/AnalyzerOptions.h"
 
 namespace clang {
 
@@ -22,6 +23,8 @@ namespace ento {
 
 class AnalysisAction : public PluginASTAction {
 protected:
+  AnalyzerOptions Opts;
+
   virtual ASTConsumer *CreateASTConsumer(CompilerInstance &CI,
                                          StringRef InFile);
 public:
