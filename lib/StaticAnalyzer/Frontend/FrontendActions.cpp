@@ -7,6 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "clang/Frontend/FrontendPluginRegistry.h"
 #include "clang/StaticAnalyzer/Frontend/FrontendActions.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "AnalysisConsumer.h"
@@ -21,3 +22,18 @@ ASTConsumer *AnalysisAction::CreateASTConsumer(CompilerInstance &CI,
                                 CI.getFrontendOpts().Plugins);
 }
 
+bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
+                               const std::vector<std::string> &args) {
+  if (args.empty())
+    return true;
+
+  DiagnosticsEngine &D = CI.getDiagnostics();
+  unsigned DiagID = D.getCustomDiagID(DiagnosticsEngine::Error,
+    "ParseArgs() not implemented (" __FILE__ ")");
+  D.Report(DiagID);
+
+  return false; // error
+}
+
+static FrontendPluginRegistry::Add<AnalysisAction>
+X("analyzer", "Run the static analyzer");

@@ -20,10 +20,13 @@ namespace ento {
 // AST Consumer Actions
 //===----------------------------------------------------------------------===//
 
-class AnalysisAction : public ASTFrontendAction {
+class AnalysisAction : public PluginASTAction {
 protected:
   virtual ASTConsumer *CreateASTConsumer(CompilerInstance &CI,
                                          StringRef InFile);
+public:
+  virtual bool ParseArgs(const CompilerInstance &CI,
+                         const std::vector<std::string> &arg);
 };
 
 void printCheckerHelp(raw_ostream &OS, ArrayRef<std::string> plugins);
