@@ -7,6 +7,7 @@ include_directories( ${CMAKE_CURRENT_BINARY_DIR}/../Checkers )
 
 add_clang_library(clangStaticAnalyzerFrontend
   AnalysisConsumer.cpp
+  AnalyzerOptions.cpp
   CheckerRegistration.cpp
   FrontendActions.cpp
   )
@@ -14,6 +15,7 @@ add_clang_library(clangStaticAnalyzerFrontend
 add_dependencies(clangStaticAnalyzerFrontend
   clangStaticAnalyzerCheckers
   clangStaticAnalyzerCore
+  ClangStaticAnalyzerOptions
   ClangAttrClasses
   ClangAttrList
   ClangDeclNodes
