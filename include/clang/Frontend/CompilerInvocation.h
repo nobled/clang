@@ -13,7 +13,6 @@
 #include "clang/Basic/LangOptions.h"
 #include "clang/Basic/TargetOptions.h"
 #include "clang/Basic/FileSystemOptions.h"
-#include "clang/Frontend/AnalyzerOptions.h"
 #include "clang/Frontend/MigratorOptions.h"
 #include "clang/Frontend/CodeGenOptions.h"
 #include "clang/Frontend/DependencyOutputOptions.h"
@@ -54,9 +53,6 @@ public:
 /// compiler, including data such as the include paths, the code generation
 /// options, the warning flags, and so on.
 class CompilerInvocation : public CompilerInvocationBase {
-  /// Options controlling the static analyzer.
-  AnalyzerOptions AnalyzerOpts;
-
   MigratorOptions MigratorOpts;
   
   /// Options controlling IRgen and the backend.
@@ -144,11 +140,6 @@ public:
   /// @}
   /// @name Option Subgroups
   /// @{
-
-  AnalyzerOptions &getAnalyzerOpts() { return AnalyzerOpts; }
-  const AnalyzerOptions &getAnalyzerOpts() const {
-    return AnalyzerOpts;
-  }
 
   MigratorOptions &getMigratorOpts() { return MigratorOpts; }
   const MigratorOptions &getMigratorOpts() const {

@@ -159,13 +159,6 @@ bool clang::ExecuteCompilerInvocation(CompilerInstance *Clang) {
     llvm::cl::ParseCommandLineOptions(NumArgs + 1, const_cast<char **>(Args));
   }
 
-  // Honor -analyzer-checker-help.
-  // This should happen AFTER plugins have been loaded!
-  if (Clang->getAnalyzerOpts().ShowCheckerHelp) {
-    ento::printCheckerHelp(llvm::outs(), Clang->getFrontendOpts().Plugins);
-    return 0;
-  }
-
   // If there were errors in processing arguments, don't do anything else.
   bool Success = false;
   if (!Clang->getDiagnostics().hasErrorOccurred()) {

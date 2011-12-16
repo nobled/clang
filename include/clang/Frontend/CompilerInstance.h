@@ -189,13 +189,6 @@ public:
   /// @name Forwarding Methods
   /// {
 
-  AnalyzerOptions &getAnalyzerOpts() {
-    return Invocation->getAnalyzerOpts();
-  }
-  const AnalyzerOptions &getAnalyzerOpts() const {
-    return Invocation->getAnalyzerOpts();
-  }
-
   CodeGenOptions &getCodeGenOpts() {
     return Invocation->getCodeGenOpts();
   }
