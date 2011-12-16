@@ -958,111 +958,6 @@ static unsigned getOptimizationLevel(ArgList &Args, InputKind IK,
     Args.getLastArgIntValue(OPT_O, DefaultOpt, Diags);
 }
 
-static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
-                              DiagnosticsEngine &Diags) {
-  using namespace cc1options;
-  bool Success = true;
-  if (Arg *A = Args.getLastArg(OPT_analyzer_store)) {
-    StringRef Name = A->getValue(Args);
-    AnalysisStores Value = llvm::StringSwitch<AnalysisStores>(Name)
-#define ANALYSIS_STORE(NAME, CMDFLAG, DESC, CREATFN) \
-      .Case(CMDFLAG, NAME##Model)
-#include "clang/Frontend/Analyses.def"
-      .Default(NumStores);
-    if (Value == NumStores) {
-      Diags.Report(diag::err_drv_invalid_value)
-        << A->getAsString(Args) << Name;
-      Success = false;
-    } else {
-      Opts.AnalysisStoreOpt = Value;
-    }
-  }
-
-  if (Arg *A = Args.getLastArg(OPT_analyzer_constraints)) {
-    StringRef Name = A->getValue(Args);
-    AnalysisConstraints Value = llvm::StringSwitch<AnalysisConstraints>(Name)
-#define ANALYSIS_CONSTRAINTS(NAME, CMDFLAG, DESC, CREATFN) \
-      .Case(CMDFLAG, NAME##Model)
-#include "clang/Frontend/Analyses.def"
-      .Default(NumConstraints);
-    if (Value == NumConstraints) {
-      Diags.Report(diag::err_drv_invalid_value)
-        << A->getAsString(Args) << Name;
-      Success = false;
-    } else {
-      Opts.AnalysisConstraintsOpt = Value;
-    }
-  }
-
-  if (Arg *A = Args.getLastArg(OPT_analyzer_output)) {
-    StringRef Name = A->getValue(Args);
-    AnalysisDiagClients Value = llvm::StringSwitch<AnalysisDiagClients>(Name)
-#define ANALYSIS_DIAGNOSTICS(NAME, CMDFLAG, DESC, CREATFN, AUTOCREAT) \
-      .Case(CMDFLAG, PD_##NAME)
-#include "clang/Frontend/Analyses.def"
-      .Default(NUM_ANALYSIS_DIAG_CLIENTS);
-    if (Value == NUM_ANALYSIS_DIAG_CLIENTS) {
-      Diags.Report(diag::err_drv_invalid_value)
-        << A->getAsString(Args) << Name;
-      Success = false;
-    } else {
-      Opts.AnalysisDiagOpt = Value;
-    }
-  }
-
-  if (Arg *A = Args.getLastArg(OPT_analyzer_purge)) {
-    StringRef Name = A->getValue(Args);
-    AnalysisPurgeMode Value = llvm::StringSwitch<AnalysisPurgeMode>(Name)
-#define ANALYSIS_PURGE(NAME, CMDFLAG, DESC) \
-      .Case(CMDFLAG, NAME)
-#include "clang/Frontend/Analyses.def"
-      .Default(NumPurgeModes);
-    if (Value == NumPurgeModes) {
-      Diags.Report(diag::err_drv_invalid_value)
-        << A->getAsString(Args) << Name;
-      Success = false;
-    } else {
-      Opts.AnalysisPurgeOpt = Value;
-    }
-  }
-
-  Opts.ShowCheckerHelp = Args.hasArg(OPT_analyzer_checker_help);
-  Opts.VisualizeEGDot = Args.hasArg(OPT_analyzer_viz_egraph_graphviz);
-  Opts.VisualizeEGUbi = Args.hasArg(OPT_analyzer_viz_egraph_ubigraph);
-  Opts.AnalyzeAll = Args.hasArg(OPT_analyzer_opt_analyze_headers);
-  Opts.AnalyzerDisplayProgress = Args.hasArg(OPT_analyzer_display_progress);
-  Opts.AnalyzeNestedBlocks =
-    Args.hasArg(OPT_analyzer_opt_analyze_nested_blocks);
-  Opts.EagerlyAssume = Args.hasArg(OPT_analyzer_eagerly_assume);
-  Opts.AnalyzeSpecificFunction = Args.getLastArgValue(OPT_analyze_function);
-  Opts.UnoptimizedCFG = Args.hasArg(OPT_analysis_UnoptimizedCFG);
-  Opts.CFGAddImplicitDtors = Args.hasArg(OPT_analysis_CFGAddImplicitDtors);
-  Opts.CFGAddInitializers = Args.hasArg(OPT_analysis_CFGAddInitializers);
-  Opts.TrimGraph = Args.hasArg(OPT_trim_egraph);
-  Opts.MaxNodes = Args.getLastArgIntValue(OPT_analyzer_max_nodes, 150000,Diags);
-  Opts.MaxLoop = Args.getLastArgIntValue(OPT_analyzer_max_loop, 4, Diags);
-  Opts.EagerlyTrimEGraph = !Args.hasArg(OPT_analyzer_no_eagerly_trim_egraph);
-  Opts.InlineCall = Args.hasArg(OPT_analyzer_inline_call);
-
-  Opts.CheckersControlList.clear();
-  for (arg_iterator it = Args.filtered_begin(OPT_analyzer_checker,
-                                             OPT_analyzer_disable_checker),
-         ie = Args.filtered_end(); it != ie; ++it) {
-    const Arg *A = *it;
-    A->claim();
-    bool enable = (A->getOption().getID() == OPT_analyzer_checker);
-    // We can have a list of comma separated checker names, e.g:
-    // '-analyzer-checker=cocoa,unix'
-    StringRef checkerList = A->getValue(Args);
-    SmallVector<StringRef, 4> checkers;
-    checkerList.split(checkers, ",");
-    for (unsigned i = 0, e = checkers.size(); i != e; ++i)
-      Opts.CheckersControlList.push_back(std::make_pair(checkers[i], enable));
-  }
-
-  return Success;
-}
-
 static bool ParseMigratorArgs(MigratorOptions &Opts, ArgList &Args) {
   Opts.NoNSAllocReallocError = Args.hasArg(OPT_migrator_no_nsalloc_error);
   Opts.NoFinalizeRemoval = Args.hasArg(OPT_migrator_no_finalize_removal);
@@ -1359,8 +1254,6 @@ static InputKind ParseFrontendArgs(FrontendOptions &Opts, ArgList &Args,
       Opts.ProgramAction = frontend::RewriteObjC; break;
     case OPT_rewrite_test:
       Opts.ProgramAction = frontend::RewriteTest; break;
-    case OPT_analyze:
-      Opts.ProgramAction = frontend::RunAnalysis; break;
     case OPT_Eonly:
       Opts.ProgramAction = frontend::RunPreprocessorOnly; break;
     }
@@ -2073,7 +1966,6 @@ bool CompilerInvocation::CreateFromArgs(CompilerInvocation &Res,
     Success = false;
   }
 
-  Success = ParseAnalyzerArgs(Res.getAnalyzerOpts(), *Args, Diags) && Success;
   Success = ParseMigratorArgs(Res.getMigratorOpts(), *Args) && Success;
   ParseDependencyOutputArgs(Res.getDependencyOutputOpts(), *Args);
   Success = ParseDiagnosticArgs(Res.getDiagnosticOpts(), *Args, Diags)
