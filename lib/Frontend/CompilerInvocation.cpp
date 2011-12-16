@@ -336,7 +336,6 @@ static const char *getActionName(frontend::ActionKind Kind) {
   case frontend::RewriteMacros:          return "-rewrite-macros";
   case frontend::RewriteObjC:            return "-rewrite-objc";
   case frontend::RewriteTest:            return "-rewrite-test";
-  case frontend::RunAnalysis:            return "-analyze";
   case frontend::RunPreprocessorOnly:    return "-Eonly";
   }
 
