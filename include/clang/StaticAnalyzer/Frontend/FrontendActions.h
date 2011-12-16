@@ -33,6 +33,7 @@ protected:
 public:
   virtual bool ParseArgs(const CompilerInstance &CI,
                          const std::vector<std::string> &arg);
+  void toArgs(std::vector<std::string> &args);
 };
 
 void printCheckerHelp(raw_ostream &OS, ArrayRef<std::string> plugins);

@@ -19,6 +19,7 @@
 #include "clang/Driver/OptTable.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "llvm/ADT/StringSwitch.h"
+#include "llvm/Support/ErrorHandling.h"
 
 #include "AnalysisConsumer.h"
 
@@ -191,6 +192,106 @@ bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
     ento::printCheckerHelp(llvm::outs(), CI.getFrontendOpts().Plugins);
 
   return true;
+}
+//===----------------------------------------------------------------------===//
+// Utility functions.
+//===----------------------------------------------------------------------===//
+
+static const char *getAnalysisStoreName(AnalysisStores Kind) {
+  switch (Kind) {
+  default:
+    llvm_unreachable("Unknown analysis store!");
+#define ANALYSIS_STORE(NAME, CMDFLAG, DESC, CREATFN) \
+  case NAME##Model: return CMDFLAG;
+#include "clang/Frontend/Analyses.def"
+  }
+}
+
+static const char *getAnalysisConstraintName(AnalysisConstraints Kind) {
+  switch (Kind) {
+  default:
+    llvm_unreachable("Unknown analysis constraints!");
+#define ANALYSIS_CONSTRAINTS(NAME, CMDFLAG, DESC, CREATFN) \
+  case NAME##Model: return CMDFLAG;
+#include "clang/Frontend/Analyses.def"
+  }
+}
+
+static const char *getAnalysisDiagClientName(AnalysisDiagClients Kind) {
+  switch (Kind) {
+  default:
+    llvm_unreachable("Unknown analysis client!");
+#define ANALYSIS_DIAGNOSTICS(NAME, CMDFLAG, DESC, CREATFN, AUTOCREATE) \
+  case PD_##NAME: return CMDFLAG;
+#include "clang/Frontend/Analyses.def"
+  }
+}
+
+static const char *getAnalysisPurgeModeName(AnalysisPurgeMode Kind) {
+  switch (Kind) {
+  default:
+    llvm_unreachable("Unknown analysis client!");
+#define ANALYSIS_PURGE(NAME, CMDFLAG, DESC) \
+  case NAME: return CMDFLAG;
+#include "clang/Frontend/Analyses.def"
+  }
+}
+
+//===----------------------------------------------------------------------===//
+// Serialization (to args)
+//===----------------------------------------------------------------------===//
+
+static void AnalyzerOptsToArgs(const AnalyzerOptions &Opts,
+                               std::vector<std::string> &Res) {
+  if (Opts.ShowCheckerHelp)
+    Res.push_back("-analyzer-checker-help");
+  if (Opts.AnalysisStoreOpt != RegionStoreModel) {
+    Res.push_back("-analyzer-store");
+    Res.push_back(getAnalysisStoreName(Opts.AnalysisStoreOpt));
+  }
+  if (Opts.AnalysisConstraintsOpt != RangeConstraintsModel) {
+    Res.push_back("-analyzer-constraints");
+    Res.push_back(getAnalysisConstraintName(Opts.AnalysisConstraintsOpt));
+  }
+  if (Opts.AnalysisDiagOpt != PD_HTML) {
+    Res.push_back("-analyzer-output");
+    Res.push_back(getAnalysisDiagClientName(Opts.AnalysisDiagOpt));
+  }
+  if (Opts.AnalysisPurgeOpt != PurgeStmt) {
+    Res.push_back("-analyzer-purge");
+    Res.push_back(getAnalysisPurgeModeName(Opts.AnalysisPurgeOpt));
+  }
+  if (!Opts.AnalyzeSpecificFunction.empty()) {
+    Res.push_back("-analyze-function");
+    Res.push_back(Opts.AnalyzeSpecificFunction);
+  }
+  if (Opts.AnalyzeAll)
+    Res.push_back("-analyzer-opt-analyze-headers");
+  if (Opts.AnalyzerDisplayProgress)
+    Res.push_back("-analyzer-display-progress");
+  if (Opts.AnalyzeNestedBlocks)
+    Res.push_back("-analyzer-opt-analyze-nested-blocks");
+  if (Opts.EagerlyAssume)
+    Res.push_back("-analyzer-eagerly-assume");
+  if (Opts.TrimGraph)
+    Res.push_back("-trim-egraph");
+  if (Opts.VisualizeEGDot)
+    Res.push_back("-analyzer-viz-egraph-graphviz");
+  if (Opts.VisualizeEGUbi)
+    Res.push_back("-analyzer-viz-egraph-ubigraph");
+
+  for (unsigned i = 0, e = Opts.CheckersControlList.size(); i != e; ++i) {
+    const std::pair<std::string, bool> &opt = Opts.CheckersControlList[i];
+    if (opt.second)
+      Res.push_back("-analyzer-disable-checker");
+    else
+      Res.push_back("-analyzer-checker");
+    Res.push_back(opt.first);
+  }
+}
+
+void AnalysisAction::toArgs(std::vector<std::string> &args) {
+  AnalyzerOptsToArgs(this->Opts, args);
 }
 
 static FrontendPluginRegistry::Add<AnalysisAction>
