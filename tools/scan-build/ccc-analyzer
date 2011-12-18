@@ -200,16 +200,16 @@ sub Analyze {
       push @Args, '-o', $HtmlDir;
     }
     if ($Verbose) {
-      push @Args, "-Xclang", "-analyzer-display-progress";
+      push @Args, "-Xanalyzer", "-analyzer-display-progress";
     }
 
     foreach my $arg (@$AnalyzeArgs) {
-      push @Args, "-Xclang", $arg;
+      push @Args, "-Xanalyzer", $arg;
     }
 
     # Display Ubiviz graph?
     if (defined $ENV{'CCC_UBI'}) {   
-      push @Args, "-Xclang", "-analyzer-viz-egraph-ubigraph";
+      push @Args, "-Xanalyzer", "-analyzer-viz-egraph-ubigraph";
     }
 
     my $AnalysisArgs = GetCCArgs("--analyze", \@Args);
