@@ -1,6 +1,8 @@
 set(LLVM_LINK_COMPONENTS mc)
 
 add_clang_library(clangBasic
+  Arg.cpp
+  ArgList.cpp
   Builtins.cpp
   ConvertUTF.c
   Diagnostic.cpp
@@ -10,6 +12,8 @@ add_clang_library(clangBasic
   IdentifierTable.cpp
   LangOptions.cpp
   Module.cpp
+  Option.cpp
+  OptTable.cpp
   SourceLocation.cpp
   SourceManager.cpp
   TargetInfo.cpp
