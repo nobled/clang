@@ -202,9 +202,10 @@ namespace clang {
                                     StringRef Default = "") const;
 
     /// getLastArgValue - Return the value of the last argument as an integer,
-    /// or a default. Emits an error if the argument is given, but non-integral.
+    /// or a default. Emits the given DiagID if the argument is given, but
+    /// non-integral. The DiagID must take two arguments.
     int getLastArgIntValue(OptSpecifier Id, int Default,
-                           DiagnosticsEngine &Diags) const;
+                           DiagnosticsEngine &Diags, unsigned DiagID) const;
 
     /// getAllArgValues - Get the values of all instances of the given argument
     /// as strings.

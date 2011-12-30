@@ -205,8 +205,9 @@ bool AssemblerInvocation::CreateFromArgs(AssemblerInvocation &Opts,
   Opts.ShowVersion = Args->hasArg(OPT_version);
 
   // Transliterate Options
+  unsigned DiagID = diag::err_drv_invalid_int_value;
   Opts.OutputAsmVariant = Args->getLastArgIntValue(OPT_output_asm_variant,
-                                                   0, Diags);
+                                                   0, Diags, DiagID);
   Opts.ShowEncoding = Args->hasArg(OPT_show_encoding);
   Opts.ShowInst = Args->hasArg(OPT_show_inst);
 

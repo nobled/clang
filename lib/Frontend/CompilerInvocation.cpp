@@ -933,6 +933,7 @@ using namespace clang::driver;
 using namespace clang::driver::cc1options;
 
 //
+#define BADINT diag::err_drv_invalid_int_value
 
 static unsigned getOptimizationLevel(ArgList &Args, InputKind IK,
                                      DiagnosticsEngine &Diags) {
@@ -941,7 +942,7 @@ static unsigned getOptimizationLevel(ArgList &Args, InputKind IK,
     DefaultOpt = 2;
   // -Os/-Oz implies -O2
   return (Args.hasArg(OPT_Os) || Args.hasArg (OPT_Oz)) ? 2 :
-    Args.getLastArgIntValue(OPT_O, DefaultOpt, Diags);
+    Args.getLastArgIntValue(OPT_O, DefaultOpt, Diags, BADINT);
 }
 
 static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
@@ -1025,8 +1026,10 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
   Opts.CFGAddImplicitDtors = Args.hasArg(OPT_analysis_CFGAddImplicitDtors);
   Opts.CFGAddInitializers = Args.hasArg(OPT_analysis_CFGAddInitializers);
   Opts.TrimGraph = Args.hasArg(OPT_trim_egraph);
-  Opts.MaxNodes = Args.getLastArgIntValue(OPT_analyzer_max_nodes, 150000,Diags);
-  Opts.MaxLoop = Args.getLastArgIntValue(OPT_analyzer_max_loop, 4, Diags);
+  Opts.MaxNodes = Args.getLastArgIntValue(OPT_analyzer_max_nodes, 150000,
+                                          Diags, BADINT);
+  Opts.MaxLoop = Args.getLastArgIntValue(OPT_analyzer_max_loop, 4, Diags,
+                                         BADINT);
   Opts.EagerlyTrimEGraph = !Args.hasArg(OPT_analyzer_no_eagerly_trim_egraph);
   Opts.InlineCall = Args.hasArg(OPT_analyzer_inline_call);
 
@@ -1108,7 +1111,8 @@ static bool ParseCodeGenArgs(CodeGenOptions &Opts, ArgList &Args, InputKind IK,
                        Args.hasArg(OPT_cl_fast_relaxed_math));
   Opts.NoZeroInitializedInBSS = Args.hasArg(OPT_mno_zero_initialized_in_bss);
   Opts.BackendOptions = Args.getAllArgValues(OPT_backend_option);
-  Opts.NumRegisterParameters = Args.getLastArgIntValue(OPT_mregparm, 0, Diags);
+  Opts.NumRegisterParameters = Args.getLastArgIntValue(OPT_mregparm, 0,
+                                                       Diags, BADINT);
   Opts.NoGlobalMerge = Args.hasArg(OPT_mno_global_merge);
   Opts.NoExecStack = Args.hasArg(OPT_mno_exec_stack);
   Opts.RelaxAll = Args.hasArg(OPT_mrelax_all);
@@ -1246,26 +1250,29 @@ static bool ParseDiagnosticArgs(DiagnosticOptions &Opts, ArgList &Args,
   Opts.ShowSourceRanges = Args.hasArg(OPT_fdiagnostics_print_source_range_info);
   Opts.ShowParseableFixits = Args.hasArg(OPT_fdiagnostics_parseable_fixits);
   Opts.VerifyDiagnostics = Args.hasArg(OPT_verify);
-  Opts.ErrorLimit = Args.getLastArgIntValue(OPT_ferror_limit, 0, Diags);
+  Opts.ErrorLimit = Args.getLastArgIntValue(OPT_ferror_limit, 0, Diags, BADINT);
   Opts.MacroBacktraceLimit
     = Args.getLastArgIntValue(OPT_fmacro_backtrace_limit,
-                         DiagnosticOptions::DefaultMacroBacktraceLimit, Diags);
+                         DiagnosticOptions::DefaultMacroBacktraceLimit,
+                         Diags, BADINT);
   Opts.TemplateBacktraceLimit
     = Args.getLastArgIntValue(OPT_ftemplate_backtrace_limit,
                          DiagnosticOptions::DefaultTemplateBacktraceLimit,
-                         Diags);
+                         Diags, BADINT);
   Opts.ConstexprBacktraceLimit
     = Args.getLastArgIntValue(OPT_fconstexpr_backtrace_limit,
                          DiagnosticOptions::DefaultConstexprBacktraceLimit,
-                         Diags);
+                         Diags, BADINT);
   Opts.TabStop = Args.getLastArgIntValue(OPT_ftabstop,
-                                    DiagnosticOptions::DefaultTabStop, Diags);
+                                    DiagnosticOptions::DefaultTabStop,
+                                    Diags, BADINT);
   if (Opts.TabStop == 0 || Opts.TabStop > DiagnosticOptions::MaxTabStop) {
     Diags.Report(diag::warn_ignoring_ftabstop_value)
       << Opts.TabStop << DiagnosticOptions::DefaultTabStop;
     Opts.TabStop = DiagnosticOptions::DefaultTabStop;
   }
-  Opts.MessageLength = Args.getLastArgIntValue(OPT_fmessage_length, 0, Diags);
+  Opts.MessageLength = Args.getLastArgIntValue(OPT_fmessage_length, 0,
+                                               Diags, BADINT);
   Opts.DumpBuildInformation = Args.getLastArgValue(OPT_dump_build_information);
   Opts.Warnings = Args.getAllArgValues(OPT_W);
 
@@ -1793,7 +1800,7 @@ static void ParseLangArgs(LangOptions &Opts, ArgList &Args, InputKind IK,
   Opts.MicrosoftExt
     = Args.hasArg(OPT_fms_extensions) || Args.hasArg(OPT_fms_compatibility);
   Opts.MicrosoftMode = Args.hasArg(OPT_fms_compatibility);
-  Opts.MSCVersion = Args.getLastArgIntValue(OPT_fmsc_version, 0, Diags);
+  Opts.MSCVersion = Args.getLastArgIntValue(OPT_fmsc_version, 0, Diags, BADINT);
   Opts.Borland = Args.hasArg(OPT_fborland_extensions);
   Opts.WritableStrings = Args.hasArg(OPT_fwritable_strings);
   Opts.ConstStrings = Args.hasFlag(OPT_fconst_strings, OPT_fno_const_strings,
@@ -1822,12 +1829,12 @@ static void ParseLangArgs(LangOptions &Opts, ArgList &Args, InputKind IK,
   Opts.ElideConstructors = !Args.hasArg(OPT_fno_elide_constructors);
   Opts.MathErrno = Args.hasArg(OPT_fmath_errno);
   Opts.InstantiationDepth = Args.getLastArgIntValue(OPT_ftemplate_depth, 1024,
-                                                    Diags);
+                                                    Diags, BADINT);
   Opts.ConstexprCallDepth = Args.getLastArgIntValue(OPT_fconstexpr_depth, 512,
-                                                    Diags);
+                                                    Diags, BADINT);
   Opts.DelayedTemplateParsing = Args.hasArg(OPT_fdelayed_template_parsing);
   Opts.NumLargeByValueCopy = Args.getLastArgIntValue(OPT_Wlarge_by_value_copy,
-                                                    0, Diags);
+                                                    0, Diags, BADINT);
   Opts.MSBitfields = Args.hasArg(OPT_mms_bitfields);
   Opts.NeXTRuntime = !Args.hasArg(OPT_fgnu_runtime);
   Opts.ObjCConstantStringClass =
@@ -1839,8 +1846,8 @@ static void ParseLangArgs(LangOptions &Opts, ArgList &Args, InputKind IK,
     Args.hasArg(OPT_fobjc_default_synthesize_properties);
   Opts.CatchUndefined = Args.hasArg(OPT_fcatch_undefined_behavior);
   Opts.EmitAllDecls = Args.hasArg(OPT_femit_all_decls);
-  Opts.PackStruct = Args.getLastArgIntValue(OPT_fpack_struct, 0, Diags);
-  Opts.PICLevel = Args.getLastArgIntValue(OPT_pic_level, 0, Diags);
+  Opts.PackStruct = Args.getLastArgIntValue(OPT_fpack_struct, 0, Diags, BADINT);
+  Opts.PICLevel = Args.getLastArgIntValue(OPT_pic_level, 0, Diags, BADINT);
   Opts.Static = Args.hasArg(OPT_static_define);
   Opts.DumpRecordLayouts = Args.hasArg(OPT_fdump_record_layouts);
   Opts.DumpVTableLayouts = Args.hasArg(OPT_fdump_vtable_layouts);
@@ -1874,7 +1881,7 @@ static void ParseLangArgs(LangOptions &Opts, ArgList &Args, InputKind IK,
   // FIXME: This is affected by other options (-fno-inline).
   Opts.NoInline = !Opt;
 
-  unsigned SSP = Args.getLastArgIntValue(OPT_stack_protector, 0, Diags);
+  unsigned SSP = Args.getLastArgIntValue(OPT_stack_protector, 0, Diags, BADINT);
   switch (SSP) {
   default:
     Diags.Report(diag::err_drv_invalid_value)

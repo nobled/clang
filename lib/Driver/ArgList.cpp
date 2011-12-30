@@ -8,8 +8,9 @@
 //===----------------------------------------------------------------------===//
 
 #include "clang/Basic/ArgList.h"
+
 #include "clang/Basic/Arg.h"
-#include "clang/Driver/DriverDiagnostic.h"
+#include "clang/Basic/Diagnostic.h"
 #include "clang/Basic/Option.h"
 
 #include "llvm/ADT/SmallString.h"
@@ -135,13 +136,13 @@ StringRef ArgList::getLastArgValue(OptSpecifier Id,
 }
 
 int ArgList::getLastArgIntValue(OptSpecifier Id, int Default,
-                                clang::DiagnosticsEngine &Diags) const {
+                                clang::DiagnosticsEngine &Diags,
+                                unsigned DiagID) const {
   int Res = Default;
 
   if (Arg *A = getLastArg(Id)) {
     if (StringRef(A->getValue(*this)).getAsInteger(10, Res))
-      Diags.Report(diag::err_drv_invalid_int_value)
-        << A->getAsString(*this) << A->getValue(*this);
+      Diags.Report(DiagID) << A->getAsString(*this) << A->getValue(*this);
   }
 
   return Res;
