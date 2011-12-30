@@ -12,9 +12,9 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "clang/Basic/Option.h"
 #include "clang/Driver/Compilation.h"
 #include "clang/Driver/Driver.h"
-#include "clang/Driver/Option.h"
 #include "clang/Frontend/DiagnosticOptions.h"
 #include "clang/Frontend/TextDiagnosticPrinter.h"
 

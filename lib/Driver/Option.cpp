@@ -7,10 +7,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "clang/Driver/Option.h"
+#include "clang/Basic/Option.h"
 
-#include "clang/Driver/Arg.h"
-#include "clang/Driver/ArgList.h"
+#include "clang/Basic/Arg.h"
+#include "clang/Basic/ArgList.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/ErrorHandling.h"
 #include <cassert>

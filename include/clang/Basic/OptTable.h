@@ -11,7 +11,7 @@
 #define CLANG_DRIVER_OPTTABLE_H
 
 #include "clang/Basic/LLVM.h"
-#include "clang/Driver/OptSpecifier.h"
+#include "clang/Basic/OptSpecifier.h"
 
 namespace clang {
   enum DriverFlag {

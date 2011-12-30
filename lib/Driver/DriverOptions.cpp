@@ -8,8 +8,8 @@
 //===----------------------------------------------------------------------===//
 
 #include "clang/Driver/Options.h"
-#include "clang/Driver/OptTable.h"
-#include "clang/Driver/Option.h"
+#include "clang/Basic/OptTable.h"
+#include "clang/Basic/Option.h"
 
 using namespace clang;
 using namespace clang::driver;

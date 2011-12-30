@@ -13,11 +13,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "clang/Driver/Arg.h"
-#include "clang/Driver/ArgList.h"
+#include "clang/Basic/Arg.h"
+#include "clang/Basic/ArgList.h"
+#include "clang/Basic/OptTable.h"
 #include "clang/Driver/CC1Options.h"
 #include "clang/Driver/DriverDiagnostic.h"
-#include "clang/Driver/OptTable.h"
 #include "clang/Frontend/CompilerInstance.h"
 #include "clang/Frontend/CompilerInvocation.h"
 #include "clang/Frontend/FrontendDiagnostic.h"

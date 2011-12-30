@@ -10,13 +10,15 @@
 #include "clang/Driver/ToolChain.h"
 
 #include "clang/Driver/Action.h"
-#include "clang/Driver/Arg.h"
-#include "clang/Driver/ArgList.h"
 #include "clang/Driver/Driver.h"
 #include "clang/Driver/DriverDiagnostic.h"
 #include "clang/Driver/HostInfo.h"
 #include "clang/Driver/ObjCRuntime.h"
 #include "clang/Driver/Options.h"
+
+#include "clang/Basic/Arg.h"
+#include "clang/Basic/ArgList.h"
+
 #include "llvm/Support/ErrorHandling.h"
 using namespace clang::driver;
 using namespace clang;

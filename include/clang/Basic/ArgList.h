@@ -11,8 +11,8 @@
 #define CLANG_DRIVER_ARGLIST_H_
 
 #include "clang/Basic/LLVM.h"
-#include "clang/Driver/OptSpecifier.h"
-#include "clang/Driver/Util.h"
+#include "clang/Basic/OptSpecifier.h"
+#include "clang/Basic/ArgUtil.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/ADT/StringRef.h"
 

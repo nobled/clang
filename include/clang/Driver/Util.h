@@ -10,12 +10,9 @@
 #ifndef CLANG_DRIVER_UTIL_H_
 #define CLANG_DRIVER_UTIL_H_
 
-#include "clang/Basic/LLVM.h"
+#include "clang/Basic/ArgUtil.h"
 
 namespace clang {
-  /// ArgStringList - Type used for constructing argv lists for subprocesses.
-  typedef SmallVector<const char*, 16> ArgStringList;
-
 namespace driver {
   class Action;
 

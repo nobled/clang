@@ -12,12 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "clang/Basic/Arg.h"
+#include "clang/Basic/ArgList.h"
 #include "clang/Basic/Diagnostic.h"
-#include "clang/Driver/Arg.h"
-#include "clang/Driver/ArgList.h"
+#include "clang/Basic/OptTable.h"
 #include "clang/Driver/DriverDiagnostic.h"
 #include "clang/Driver/CC1AsOptions.h"
-#include "clang/Driver/OptTable.h"
 #include "clang/Driver/Options.h"
 #include "clang/Frontend/DiagnosticOptions.h"
 #include "clang/Frontend/FrontendDiagnostic.h"

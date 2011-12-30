@@ -7,10 +7,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "clang/Driver/OptTable.h"
-#include "clang/Driver/Arg.h"
-#include "clang/Driver/ArgList.h"
-#include "clang/Driver/Option.h"
+#include "clang/Basic/OptTable.h"
+#include "clang/Basic/Arg.h"
+#include "clang/Basic/ArgList.h"
+#include "clang/Basic/Option.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/ErrorHandling.h"
 #include <algorithm>

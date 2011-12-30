@@ -10,7 +10,7 @@
 #ifndef CLANG_DRIVER_OPTION_H_
 #define CLANG_DRIVER_OPTION_H_
 
-#include "clang/Driver/OptSpecifier.h"
+#include "clang/Basic/OptSpecifier.h"
 #include "llvm/ADT/StringRef.h"
 #include "clang/Basic/LLVM.h"
 
