@@ -7,7 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "clang/Frontend/AnalyzerOptions.h"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.h"
 #include "clang/Driver/Option.h"
 #include "clang/Driver/OptTable.h"
 

@@ -11,7 +11,7 @@
 #define LLVM_CLANG_GR_FRONTENDACTIONS_H
 
 #include "clang/Frontend/FrontendAction.h"
-#include "clang/Frontend/AnalyzerOptions.h"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.h"
 
 extern "C" void clang_LinkInStaticAnalyzerPlugin(void);
 

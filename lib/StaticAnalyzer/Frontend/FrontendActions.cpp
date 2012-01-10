@@ -8,7 +8,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "clang/Frontend/FrontendPluginRegistry.h"
-#include "clang/Frontend/AnalyzerOptions.h"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.h"
 #include "clang/StaticAnalyzer/Frontend/FrontendActions.h"
 
 #include "clang/AST/ASTConsumer.h"

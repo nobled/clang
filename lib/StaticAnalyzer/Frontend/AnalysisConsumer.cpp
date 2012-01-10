@@ -18,6 +18,7 @@
 #include "clang/AST/DeclObjC.h"
 #include "clang/AST/ParentMap.h"
 #include "clang/Analysis/CFG.h"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.h"
 #include "clang/StaticAnalyzer/Frontend/CheckerRegistration.h"
 #include "clang/StaticAnalyzer/Core/CheckerManager.h"
 #include "clang/StaticAnalyzer/Checkers/LocalCheckers.h"
@@ -29,7 +30,6 @@
 
 #include "clang/Basic/FileManager.h"
 #include "clang/Basic/SourceManager.h"
-#include "clang/Frontend/AnalyzerOptions.h"
 #include "clang/Lex/Preprocessor.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Support/Path.h"

@@ -12,12 +12,12 @@
 //===----------------------------------------------------------------------===//
 
 #include "clang/StaticAnalyzer/Frontend/CheckerRegistration.h"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.h"
 #include "clang/StaticAnalyzer/Frontend/FrontendActions.h"
 #include "clang/StaticAnalyzer/Checkers/ClangCheckers.h"
 #include "clang/StaticAnalyzer/Core/CheckerManager.h"
 #include "clang/StaticAnalyzer/Core/CheckerOptInfo.h"
 #include "clang/StaticAnalyzer/Core/CheckerRegistry.h"
-#include "clang/Frontend/AnalyzerOptions.h"
 #include "clang/Frontend/FrontendDiagnostic.h"
 #include "clang/Basic/Diagnostic.h"
 #include "llvm/Support/DynamicLibrary.h"
