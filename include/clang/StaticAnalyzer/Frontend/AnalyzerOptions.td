@@ -12,7 +12,7 @@
 //===----------------------------------------------------------------------===//
 
 // Include the common option parsing interfaces.
-include "../Basic/OptParser.td"
+include "clang/Basic/OptParser.td"
 
 //===----------------------------------------------------------------------===//
 // Analyzer Options

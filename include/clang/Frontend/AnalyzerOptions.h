@@ -24,6 +24,10 @@ class DiagnosticsEngine;
 class Preprocessor;
 class LangOptions;
 
+namespace driver {
+  class OptTable;
+}
+
 /// Analysis - Set of available source code analyses.
 enum Analyses {
 #define ANALYSIS(NAME, CMDFLAG, DESC, SCOPE) NAME,
@@ -107,6 +111,18 @@ public:
   }
 };
 
+namespace analyzeroptions {
+  enum ID {
+    OPT_INVALID = 0, // This is not an option ID.
+#define OPTION(NAME, ID, KIND, GROUP, ALIAS, FLAGS, PARAM, \
+               HELPTEXT, METAVAR) OPT_##ID,
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.inc"
+    NumOptions
+#undef OPTION
+  };
 }
+
+  driver::OptTable *createAnalyzerOptTable();
+} // end namespace clang
 
 #endif

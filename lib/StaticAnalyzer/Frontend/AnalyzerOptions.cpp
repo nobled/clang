@@ -7,7 +7,7 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "clang/StaticAnalyzer/AnalyzerOptions.h"
+#include "clang/Frontend/AnalyzerOptions.h"
 #include "clang/Driver/Option.h"
 #include "clang/Driver/OptTable.h"
 
@@ -21,7 +21,7 @@ static const OptTable::Info AnalyzerInfoTable[] = {
                HELPTEXT, METAVAR)   \
   { NAME, HELPTEXT, METAVAR, Option::KIND##Class, PARAM, FLAGS, \
     OPT_##GROUP, OPT_##ALIAS },
-#include "clang/StaticAnalyzer/AnalyzerOptions.inc"
+#include "clang/StaticAnalyzer/Frontend/AnalyzerOptions.inc"
 };
 
 namespace {
