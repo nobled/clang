@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core -analyzer-store region -analyzer-inline-call -cfg-add-initializers -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core -plugin-arg-analyzer -analyzer-store -plugin-arg-analyzer region -plugin-arg-analyzer -analyzer-inline-call -plugin-arg-analyzer -cfg-add-initializers -verify %s
 // XFAIL: *
 
 class A {

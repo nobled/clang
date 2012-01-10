@@ -1,6 +1,6 @@
-// RUN: %clang_cc1 -Wunused-variable -analyze -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -fblocks -verify -Wno-unreachable-code -analyzer-opt-analyze-nested-blocks %s
-// RUN: %clang_cc1 -Wunused-variable -analyze -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -analyzer-store=region -analyzer-constraints=basic -fblocks -verify -Wno-unreachable-code -analyzer-opt-analyze-nested-blocks %s
-// RUN: %clang_cc1 -Wunused-variable -analyze -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -analyzer-store=region -analyzer-constraints=range -fblocks -verify -Wno-unreachable-code -analyzer-opt-analyze-nested-blocks %s
+// RUN: %clang_cc1 -Wunused-variable -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -fblocks -verify -Wno-unreachable-code -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks %s
+// RUN: %clang_cc1 -Wunused-variable -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=basic -fblocks -verify -Wno-unreachable-code -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks %s
+// RUN: %clang_cc1 -Wunused-variable -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,deadcode.DeadStores,experimental.deadcode.IdempotentOperations -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -fblocks -verify -Wno-unreachable-code -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks %s
 
 void f1() {
   int k, y; // expected-warning{{unused variable 'k'}} expected-warning{{unused variable 'y'}}

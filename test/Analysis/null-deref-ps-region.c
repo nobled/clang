@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,experimental.core -std=gnu99 -analyzer-store=region -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,experimental.core -std=gnu99 -plugin-arg-analyzer -analyzer-store=region -verify %s
 
 
 // The store for 'a[1]' should not be removed mistakenly. SymbolicRegions may

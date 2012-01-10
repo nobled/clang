@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -pedantic -analyzer-store=region -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -pedantic -plugin-arg-analyzer -analyzer-store=region -verify %s
 
 // BEGIN delta-debugging reduced header stuff
 

@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-store=region -analyzer-constraints=range -fblocks -analyzer-opt-analyze-nested-blocks -analyzer-checker=experimental.deadcode.IdempotentOperations -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -fblocks -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks -plugin-arg-analyzer -analyzer-checker=experimental.deadcode.IdempotentOperations -verify %s
 
 // Basic tests
 

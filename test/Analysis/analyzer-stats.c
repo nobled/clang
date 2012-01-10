@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,deadcode.DeadStores,debug.Stats -verify -Wno-unreachable-code -analyzer-opt-analyze-nested-blocks %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,deadcode.DeadStores,debug.Stats -verify -Wno-unreachable-code -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks %s
 
 int foo();
 

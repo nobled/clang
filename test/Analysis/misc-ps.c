@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -analyze -disable-free -analyzer-eagerly-assume -analyzer-checker=core -analyzer-checker=deadcode -verify %s
+// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -plugin analyzer -disable-free -plugin-arg-analyzer -analyzer-eagerly-assume -plugin-arg-analyzer -analyzer-checker=core -plugin-arg-analyzer -analyzer-checker=deadcode -verify %s
 
 int size_rdar9373039 = 1;
 int foo_rdar9373039(const char *);

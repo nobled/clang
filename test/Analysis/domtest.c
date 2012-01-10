@@ -1,4 +1,4 @@
-// RUN: %clang -cc1 -analyze -analyzer-checker=debug.DumpDominators %s 2>&1 | FileCheck %s
+// RUN: %clang -cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=debug.DumpDominators %s 2>&1 | FileCheck %s
 
 // Test the DominatorsTree implementation with various control flows
 int test1()

@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -analyze -analyzer-checker=unix.API,osx.API %s -analyzer-store=region -fblocks -verify
+// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=unix.API,osx.API %s -plugin-arg-analyzer -analyzer-store=region -fblocks -verify
 
 struct _opaque_pthread_once_t {
   long __sig;

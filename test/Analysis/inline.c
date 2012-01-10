@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core -analyzer-inline-call -analyzer-store region -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core -plugin-arg-analyzer -analyzer-inline-call -plugin-arg-analyzer -analyzer-store -plugin-arg-analyzer region -verify %s
 
 int test1_f1() {
   int y = 1;

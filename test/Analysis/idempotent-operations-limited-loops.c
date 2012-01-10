@@ -1,6 +1,6 @@
-// RUN: %clang_cc1 -analyze -analyzer-store=region -analyzer-constraints=range -fblocks -analyzer-opt-analyze-nested-blocks -analyzer-checker=core,experimental.deadcode.IdempotentOperations -analyzer-max-loop 3 -verify %s
-// RUN: %clang_cc1 -analyze -analyzer-store=region -analyzer-constraints=range -fblocks -analyzer-opt-analyze-nested-blocks -analyzer-checker=core,experimental.deadcode.IdempotentOperations -analyzer-max-loop 4 -verify %s
-// RUN: %clang_cc1 -analyze -analyzer-store=region -analyzer-constraints=range -fblocks -analyzer-opt-analyze-nested-blocks -analyzer-checker=core,experimental.deadcode.IdempotentOperations %s -verify
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -fblocks -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks -plugin-arg-analyzer -analyzer-checker=core,experimental.deadcode.IdempotentOperations -plugin-arg-analyzer -analyzer-max-loop -plugin-arg-analyzer 3 -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -fblocks -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks -plugin-arg-analyzer -analyzer-checker=core,experimental.deadcode.IdempotentOperations -plugin-arg-analyzer -analyzer-max-loop -plugin-arg-analyzer 4 -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -fblocks -plugin-arg-analyzer -analyzer-opt-analyze-nested-blocks -plugin-arg-analyzer -analyzer-checker=core,experimental.deadcode.IdempotentOperations %s -verify
 
 void always_warning() { int *p = 0; *p = 0xDEADBEEF; } // expected-warning{{Dereference of null pointer (loaded from variable 'p')}}
 

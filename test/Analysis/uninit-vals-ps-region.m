@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-store=region -analyzer-checker=core,experimental.deadcode.IdempotentOperations -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-checker=core,experimental.deadcode.IdempotentOperations -verify %s
 
 struct s {
   int data;

@@ -1,5 +1,5 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core -analyzer-store=region -analyzer-constraints=basic -verify -Wno-unreachable-code -ffreestanding %s
-// RUN: %clang_cc1 -analyze -analyzer-checker=core -analyzer-store=region -analyzer-constraints=range -verify -Wno-unreachable-code -ffreestanding %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=basic -verify -Wno-unreachable-code -ffreestanding %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -verify -Wno-unreachable-code -ffreestanding %s
 
 #include <stdint.h>
 

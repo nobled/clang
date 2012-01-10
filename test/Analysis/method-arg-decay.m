@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyzer-checker=core -verify %s
+// RUN: %clang_cc1 -plugin-arg-analyzer -analyzer-checker=core -verify %s
 typedef signed char BOOL;
 typedef int NSInteger;
 typedef unsigned int NSUInteger;

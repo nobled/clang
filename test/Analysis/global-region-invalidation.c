@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -analyze -disable-free -analyzer-eagerly-assume -analyzer-checker=core,deadcode,experimental.security.taint,debug.TaintTest -verify %s
+// RUN: %clang_cc1 -triple x86_64-apple-darwin10 -plugin analyzer -disable-free -plugin-arg-analyzer -analyzer-eagerly-assume -plugin-arg-analyzer -analyzer-checker=core,deadcode,experimental.security.taint,debug.TaintTest -verify %s
 
 // Note, we do need to include headers here, since the analyzer checks if the function declaration is located in a system header.
 #include "system-header-simulator.h"

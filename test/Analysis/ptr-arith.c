@@ -1,5 +1,5 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=experimental.core.FixedAddr,experimental.core.PointerArithm,experimental.core.PointerSub -analyzer-store=region -verify -triple x86_64-apple-darwin9 %s
-// RUN: %clang_cc1 -analyze -analyzer-checker=experimental.core.FixedAddr,experimental.core.PointerArithm,experimental.core.PointerSub -analyzer-store=region -verify -triple i686-apple-darwin9 %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=experimental.core.FixedAddr,experimental.core.PointerArithm,experimental.core.PointerSub -plugin-arg-analyzer -analyzer-store=region -verify -triple x86_64-apple-darwin9 %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=experimental.core.FixedAddr,experimental.core.PointerArithm,experimental.core.PointerSub -plugin-arg-analyzer -analyzer-store=region -verify -triple i686-apple-darwin9 %s
 
 // Used to trigger warnings for unreachable paths.
 #define WARN do { int a, b; int c = &b-&a; } while (0)

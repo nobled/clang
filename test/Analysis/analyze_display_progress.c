@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-display-progress %s 2>&1 | FileCheck %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-display-progress %s 2>&1 | FileCheck %s
 
 void f() {};
 void g() {};

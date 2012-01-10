@@ -1,5 +1,5 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -verify %s -analyzer-constraints=basic -analyzer-store=region
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -verify %s -analyzer-constraints=range -analyzer-store=region
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -verify %s -plugin-arg-analyzer -analyzer-constraints=basic -plugin-arg-analyzer -analyzer-store=region
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.RetainCount,experimental.core -verify %s -plugin-arg-analyzer -analyzer-constraints=range -plugin-arg-analyzer -analyzer-store=region
 
 typedef struct objc_selector *SEL;
 typedef signed char BOOL;

@@ -1,7 +1,7 @@
-// RUN: %clang_cc1 -triple i386-apple-darwin10 -analyze -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -analyzer-store=region -analyzer-constraints=basic -verify %s
-// RUN: %clang_cc1 -triple i386-apple-darwin10 -analyze -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -analyzer-store=region -analyzer-constraints=range -verify %s
-// RUN: %clang_cc1 -DTEST_64 -triple x86_64-apple-darwin10 -analyze -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -analyzer-store=region -analyzer-constraints=basic -verify %s
-// RUN: %clang_cc1 -DTEST_64 -triple x86_64-apple-darwin10 -analyze -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -analyzer-store=region -analyzer-constraints=range -verify %s
+// RUN: %clang_cc1 -triple i386-apple-darwin10 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=basic -verify %s
+// RUN: %clang_cc1 -triple i386-apple-darwin10 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -verify %s
+// RUN: %clang_cc1 -DTEST_64 -triple x86_64-apple-darwin10 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=basic -verify %s
+// RUN: %clang_cc1 -DTEST_64 -triple x86_64-apple-darwin10 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,osx.cocoa.NilArg,osx.cocoa.RetainCount,osx.AtomicCAS,experimental.core -plugin-arg-analyzer -analyzer-store=region -plugin-arg-analyzer -analyzer-constraints=range -verify %s
 
 
 //===----------------------------------------------------------------------===//

@@ -1,7 +1,7 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,experimental.unix.CString -analyzer-store=region -Wno-null-dereference -verify %s
-// RUN: %clang_cc1 -analyze -DUSE_BUILTINS -analyzer-checker=core,experimental.unix.CString -analyzer-store=region -Wno-null-dereference -verify %s
-// RUN: %clang_cc1 -analyze -DVARIANT -analyzer-checker=core,experimental.unix.CString -analyzer-store=region -Wno-null-dereference -verify %s
-// RUN: %clang_cc1 -analyze -DUSE_BUILTINS -DVARIANT -analyzer-checker=core,experimental.unix.CString -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -DUSE_BUILTINS -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -DVARIANT -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -DUSE_BUILTINS -DVARIANT -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
 
 //===----------------------------------------------------------------------===
 // Declarations

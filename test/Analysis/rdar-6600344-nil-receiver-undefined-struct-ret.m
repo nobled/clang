@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,experimental.core -analyzer-constraints=basic -analyzer-store=region %s -verify
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,experimental.core -plugin-arg-analyzer -analyzer-constraints=basic -plugin-arg-analyzer -analyzer-store=region %s -verify
 
 typedef struct Foo { int x; } Bar;
 

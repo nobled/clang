@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -fblocks -analyze -analyzer-checker=osx.cocoa.UnusedIvars %s -verify
+// RUN: %clang_cc1 -fblocks -plugin analyzer -plugin-arg-analyzer -analyzer-checker=osx.cocoa.UnusedIvars %s -verify
 
 //===--- BEGIN: Delta-debugging reduced headers. --------------------------===//
 

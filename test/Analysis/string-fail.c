@@ -1,5 +1,5 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=core,experimental.unix.CString,experimental.deadcode.UnreachableCode -analyzer-store=region -Wno-null-dereference -verify %s
-// RUN: %clang_cc1 -analyze -DUSE_BUILTINS -analyzer-checker=core,experimental.unix.CString,experimental.deadcode.UnreachableCode -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString,experimental.deadcode.UnreachableCode -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
+// RUN: %clang_cc1 -plugin analyzer -DUSE_BUILTINS -plugin-arg-analyzer -analyzer-checker=core,experimental.unix.CString,experimental.deadcode.UnreachableCode -plugin-arg-analyzer -analyzer-store=region -Wno-null-dereference -verify %s
 // XFAIL: *
 
 // This file is for tests that may eventually go into string.c, or may be

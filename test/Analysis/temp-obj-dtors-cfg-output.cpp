@@ -1,4 +1,4 @@
-// RUN: %clang_cc1 -analyze -analyzer-checker=debug.DumpCFG -cfg-add-implicit-dtors -cfg-add-initializers %s 2>&1 | FileCheck %s
+// RUN: %clang_cc1 -plugin analyzer -plugin-arg-analyzer -analyzer-checker=debug.DumpCFG -plugin-arg-analyzer -cfg-add-implicit-dtors -plugin-arg-analyzer -cfg-add-initializers %s 2>&1 | FileCheck %s
 // XPASS: *
 
 class A {
