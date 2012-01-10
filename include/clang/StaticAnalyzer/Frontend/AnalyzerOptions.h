@@ -31,21 +31,21 @@ namespace driver {
 /// Analysis - Set of available source code analyses.
 enum Analyses {
 #define ANALYSIS(NAME, CMDFLAG, DESC, SCOPE) NAME,
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
 NumAnalyses
 };
 
 /// AnalysisStores - Set of available analysis store models.
 enum AnalysisStores {
 #define ANALYSIS_STORE(NAME, CMDFLAG, DESC, CREATFN) NAME##Model,
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
 NumStores
 };
 
 /// AnalysisConstraints - Set of available constraint models.
 enum AnalysisConstraints {
 #define ANALYSIS_CONSTRAINTS(NAME, CMDFLAG, DESC, CREATFN) NAME##Model,
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
 NumConstraints
 };
 
@@ -53,14 +53,14 @@ NumConstraints
 ///  analysis results.
 enum AnalysisDiagClients {
 #define ANALYSIS_DIAGNOSTICS(NAME, CMDFLAG, DESC, CREATFN, AUTOCREAT) PD_##NAME,
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
 NUM_ANALYSIS_DIAG_CLIENTS
 };
 
 /// AnalysisPurgeModes - Set of available strategies for dead symbol removal.
 enum AnalysisPurgeMode {
 #define ANALYSIS_PURGE(NAME, CMDFLAG, DESC) NAME,
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
 NumPurgeModes
 };
 

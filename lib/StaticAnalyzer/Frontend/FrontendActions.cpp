@@ -59,7 +59,7 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
     AnalysisStores Value = llvm::StringSwitch<AnalysisStores>(Name)
 #define ANALYSIS_STORE(NAME, CMDFLAG, DESC, CREATFN) \
       .Case(CMDFLAG, NAME##Model)
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
       .Default(NumStores);
     if (Value == NumStores) {
       Diags.Report(diag::err_drv_invalid_value)
@@ -75,7 +75,7 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
     AnalysisConstraints Value = llvm::StringSwitch<AnalysisConstraints>(Name)
 #define ANALYSIS_CONSTRAINTS(NAME, CMDFLAG, DESC, CREATFN) \
       .Case(CMDFLAG, NAME##Model)
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
       .Default(NumConstraints);
     if (Value == NumConstraints) {
       Diags.Report(diag::err_drv_invalid_value)
@@ -91,7 +91,7 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
     AnalysisDiagClients Value = llvm::StringSwitch<AnalysisDiagClients>(Name)
 #define ANALYSIS_DIAGNOSTICS(NAME, CMDFLAG, DESC, CREATFN, AUTOCREAT) \
       .Case(CMDFLAG, PD_##NAME)
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
       .Default(NUM_ANALYSIS_DIAG_CLIENTS);
     if (Value == NUM_ANALYSIS_DIAG_CLIENTS) {
       Diags.Report(diag::err_drv_invalid_value)
@@ -107,7 +107,7 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
     AnalysisPurgeMode Value = llvm::StringSwitch<AnalysisPurgeMode>(Name)
 #define ANALYSIS_PURGE(NAME, CMDFLAG, DESC) \
       .Case(CMDFLAG, NAME)
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
       .Default(NumPurgeModes);
     if (Value == NumPurgeModes) {
       Diags.Report(diag::err_drv_invalid_value)
@@ -203,7 +203,7 @@ static const char *getAnalysisStoreName(AnalysisStores Kind) {
     llvm_unreachable("Unknown analysis store!");
 #define ANALYSIS_STORE(NAME, CMDFLAG, DESC, CREATFN) \
   case NAME##Model: return CMDFLAG;
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
   }
 }
 
@@ -213,7 +213,7 @@ static const char *getAnalysisConstraintName(AnalysisConstraints Kind) {
     llvm_unreachable("Unknown analysis constraints!");
 #define ANALYSIS_CONSTRAINTS(NAME, CMDFLAG, DESC, CREATFN) \
   case NAME##Model: return CMDFLAG;
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
   }
 }
 
@@ -223,7 +223,7 @@ static const char *getAnalysisDiagClientName(AnalysisDiagClients Kind) {
     llvm_unreachable("Unknown analysis client!");
 #define ANALYSIS_DIAGNOSTICS(NAME, CMDFLAG, DESC, CREATFN, AUTOCREATE) \
   case PD_##NAME: return CMDFLAG;
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
   }
 }
 
@@ -233,7 +233,7 @@ static const char *getAnalysisPurgeModeName(AnalysisPurgeMode Kind) {
     llvm_unreachable("Unknown analysis client!");
 #define ANALYSIS_PURGE(NAME, CMDFLAG, DESC) \
   case NAME: return CMDFLAG;
-#include "clang/Frontend/Analyses.def"
+#include "clang/StaticAnalyzer/Frontend/Analyses.def"
   }
 }
 
