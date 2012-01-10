@@ -148,6 +148,12 @@ bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
                                const std::vector<std::string> &args) {
   using namespace driver;
 
+  // TODO: CreateASTConsumer() is far too late to add a macro, and
+  // ParseArgs() is far too early for getCompilerInstance() to work yet,
+  // so we have to switch to a non-const CompilerInstance argument here
+  // in order to remove the plugin-specific hack from InitPreprocessor.cpp.
+  //CI.getPreprocessorOpts().addMacroDef("__clang_analyzer__");
+
   if (args.empty())
     return true;
 
