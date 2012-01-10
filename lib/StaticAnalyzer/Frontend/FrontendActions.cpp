@@ -33,7 +33,7 @@ ASTConsumer *AnalysisAction::CreateASTConsumer(CompilerInstance &CI,
 
   return CreateAnalysisConsumer(CI.getPreprocessor(),
                                 CI.getFrontendOpts().OutputFile,
-                                CI.getAnalyzerOpts(),
+                                this->Opts,
                                 CI.getFrontendOpts().Plugins);
 }
 

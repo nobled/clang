@@ -1213,6 +1213,12 @@ static bool shouldUseFramePointer(const ArgList &Args,
   return true;
 }
 
+#define ADD_PLUGIN_ARG(CmdArgs, plugin, argument) \
+do {\
+  CmdArgs.push_back("-plugin-arg-" plugin);\
+  CmdArgs.push_back(argument);\
+} while (0)
+
 void Clang::ConstructJob(Compilation &C, const JobAction &JA,
                          const InputInfo &Output,
                          const InputInfoList &Inputs,
@@ -1239,7 +1245,8 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
   bool IsRewriter = false;
   if (isa<AnalyzeJobAction>(JA)) {
     assert(JA.getType() == types::TY_Plist && "Invalid output type.");
-    CmdArgs.push_back("-analyze");
+    CmdArgs.push_back("-plugin");
+    CmdArgs.push_back("analyzer");
   } else if (isa<PreprocessJobAction>(JA)) {
     if (Output.getType() == types::TY_Dependencies)
       CmdArgs.push_back("-Eonly");
@@ -1332,50 +1339,58 @@ void Clang::ConstructJob(Compilation &C, const JobAction &JA,
 
   if (isa<AnalyzeJobAction>(JA)) {
     // Enable region store model by default.
-    CmdArgs.push_back("-analyzer-store=region");
+    ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-store=region");
 
     // Treat blocks as analysis entry points.
-    CmdArgs.push_back("-analyzer-opt-analyze-nested-blocks");
+    ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-opt-analyze-nested-blocks");
 
-    CmdArgs.push_back("-analyzer-eagerly-assume");
+    ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-eagerly-assume");
 
     // Add default argument set.
     if (!Args.hasArg(options::OPT__analyzer_no_default_checks)) {
-      CmdArgs.push_back("-analyzer-checker=core");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-checker=core");
 
       if (getToolChain().getTriple().getOS() != llvm::Triple::Win32)
-        CmdArgs.push_back("-analyzer-checker=unix");
+        ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-checker=unix");
 
       if (getToolChain().getTriple().getVendor() == llvm::Triple::Apple)
-        CmdArgs.push_back("-analyzer-checker=osx");
+        ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-checker=osx");
       
-      CmdArgs.push_back("-analyzer-checker=deadcode");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-checker=deadcode");
       
       // Enable the following experimental checkers for testing. 
-      CmdArgs.push_back("-analyzer-checker=experimental.osx.cocoa.ContainerAPI");
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.UncheckedReturn");
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.getpw");
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.gets");
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.mktemp");      
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.mkstemp");
-      CmdArgs.push_back("-analyzer-checker=security.insecureAPI.vfork");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=experimental.osx.cocoa.ContainerAPI");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.UncheckedReturn");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.getpw");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.gets");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.mktemp");      
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.mkstemp");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer",
+          "-analyzer-checker=security.insecureAPI.vfork");
     }
 
     // Set the output format. The default is plist, for (lame) historical
     // reasons.
-    CmdArgs.push_back("-analyzer-output");
+    ADD_PLUGIN_ARG(CmdArgs, "analyzer", "-analyzer-output");
     if (Arg *A = Args.getLastArg(options::OPT__analyzer_output))
-      CmdArgs.push_back(A->getValue(Args));
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer", A->getValue(Args));
     else
-      CmdArgs.push_back("plist");
+      ADD_PLUGIN_ARG(CmdArgs, "analyzer", "plist");
 
     // Disable the presentation of standard compiler warnings when
     // using --analyze.  We only want to show static analyzer diagnostics
     // or frontend errors.
     CmdArgs.push_back("-w");
 
-    // Add -Xanalyzer arguments when running as analyzer.
-    Args.AddAllArgValues(CmdArgs, options::OPT_Xanalyzer);
+    // Pass -Xanalyzer arguments down to the analyzer plugin.
+    Args.AddAllArgsTranslated(CmdArgs, options::OPT_Xanalyzer,
+                              "-plugin-arg-analyzer");
   }
 
   CheckCodeGenerationOptions(D, Args);

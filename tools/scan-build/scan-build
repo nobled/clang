@@ -1048,7 +1048,8 @@ if ($pid == 0) {
   close FROM_CHILD;
   open(STDOUT,">&", \*TO_PARENT);
   open(STDERR,">&", \*TO_PARENT);
-  exec $Clang, ('-cc1', '-analyzer-checker-help');
+  exec $Clang, ('-cc1', '-plugin', 'analyzer',
+                '-plugin-arg-analyzer', '-analyzer-checker-help');
 }
 close(TO_PARENT);
 my $foundCheckers = 0;

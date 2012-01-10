@@ -170,8 +170,10 @@ def runAnalyzePreprocessed(Dir, SBOutputDir):
                BuildScript
         raise Exception()       
 
-    CmdPrefix = "clang -cc1 -analyze -analyzer-output=plist -w "
-    CmdPrefix += "-analyzer-checker=" + Checkers +" -fcxx-exceptions -fblocks "   
+    CmdPrefix = "clang -cc1 -plugin analyzer "
+    CmdPrefix += "-plugin-arg-analyzer -analyzer-output=plist "
+    CmdPrefix += "-plugin-arg-analyzer -analyzer-checker=" + Checkers
+    CmdPrefix += " -w -fcxx-exceptions -fblocks "
     
     PlistPath = os.path.join(Dir, SBOutputDir, "date")
     FailPath = os.path.join(PlistPath, "failures");
