@@ -13,6 +13,8 @@
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/Frontend/AnalyzerOptions.h"
 
+extern "C" void clang_LinkInStaticAnalyzerPlugin(void);
+
 namespace clang {
 
 namespace ento {

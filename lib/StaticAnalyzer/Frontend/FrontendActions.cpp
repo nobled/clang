@@ -185,3 +185,5 @@ bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
 
 static FrontendPluginRegistry::Add<AnalysisAction>
 X("analyzer", "Run the static analyzer");
+
+extern "C" void clang_LinkInStaticAnalyzerPlugin(void) { }

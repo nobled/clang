@@ -18,6 +18,9 @@
 #include "clang/Frontend/DiagnosticOptions.h"
 #include "clang/Frontend/TextDiagnosticPrinter.h"
 
+// For linking in the plugin statically, for now:
+#include "clang/StaticAnalyzer/Frontend/FrontendActions.h"
+
 #include "llvm/ADT/ArrayRef.h"
 #include "llvm/ADT/SmallString.h"
 #include "llvm/ADT/SmallVector.h"
@@ -336,6 +339,7 @@ static void ParseProgName(SmallVectorImpl<const char *> &ArgVector,
 }
 
 int main(int argc_, const char **argv_) {
+  clang_LinkInStaticAnalyzerPlugin(); // TODO: This should be optional.
   llvm::sys::PrintStackTraceOnErrorSignal();
   llvm::PrettyStackTraceProgram X(argc_, argv_);
 
