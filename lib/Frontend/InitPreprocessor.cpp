@@ -537,12 +537,6 @@ static void InitializePredefinedMacros(const TargetInfo &TI,
   if (FEOpts.ProgramAction == frontend::RewriteObjC)
     Builder.defineMacro("__weak", "__attribute__((objc_gc(weak)))");
 
-  // Define a macro that exists only when using the static analyzer.
-  // XXX: This is a total hack, this should be added from the plugin.
-  if (FEOpts.ProgramAction == frontend::PluginAction
-      && FEOpts.ActionName == "analyzer")
-    Builder.defineMacro("__clang_analyzer__");
-
   if (LangOpts.FastRelaxedMath)
     Builder.defineMacro("__FAST_RELAXED_MATH__");
 

@@ -25,6 +25,16 @@
 using namespace clang;
 using namespace ento;
 
+bool AnalysisAction::BeginInvocation(CompilerInstance &CI) {
+  // NOTE: This is treated by the preprocessor as if it were added by
+  // the driver via -D: it's in the section marked by
+  // "# 1 \"<command line>\" 1". See InitPreprocessor.cpp.
+  // Maybe there should be two entry points, one for the driver, one
+  // for clang internals?
+  CI.getPreprocessorOpts().addMacroDef("__clang_analyzer__");
+  return true;
+}
+
 ASTConsumer *AnalysisAction::CreateASTConsumer(CompilerInstance &CI,
                                                StringRef InFile) {
   // If -analyzer-checker-help was given, this should be a no-op.
@@ -147,12 +157,6 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, driver::ArgList &Args,
 bool AnalysisAction::ParseArgs(const CompilerInstance &CI,
                                const std::vector<std::string> &args) {
   using namespace driver;
-
-  // TODO: CreateASTConsumer() is far too late to add a macro, and
-  // ParseArgs() is far too early for getCompilerInstance() to work yet,
-  // so we have to switch to a non-const CompilerInstance argument here
-  // in order to remove the plugin-specific hack from InitPreprocessor.cpp.
-  //CI.getPreprocessorOpts().addMacroDef("__clang_analyzer__");
 
   if (args.empty())
     return true;

@@ -27,6 +27,7 @@ class AnalysisAction : public PluginASTAction {
 protected:
   AnalyzerOptions Opts;
 
+  virtual bool BeginInvocation(CompilerInstance &CI);
   virtual ASTConsumer *CreateASTConsumer(CompilerInstance &CI,
                                          StringRef InFile);
 public:
